@@ -1,2 +1,6 @@
 fastapi==0.115.0
 uvicorn[standard]==0.30.6
+redis==5.0.1
+httpx==0.27.0
+apscheduler==3.10.4 #"특정 함수를 주기적으로 자동 실행"해주는 라이브러리
+python-dotenv==1.0.1

@@ -35,11 +35,11 @@ services:
   fastapi:
     build: ./ai-fastapi
     container_name: local-fastapi
+    env_file:
+    - ./ai-fastapi/.env.local
     ports:
       - "8000:8000"
     depends_on:
-      mysql:
-        condition: service_healthy
       redis:
         condition: service_healthy  # healthcheck 있어야 이게 동작함        
 
