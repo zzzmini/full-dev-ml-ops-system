@@ -126,10 +126,17 @@ async def lifespan(app: FastAPI):
     yield  # ← 앱 실행 중 (이 지점에서 FastAPI가 요청을 처리)
     scheduler.shutdown()  # 앱 종료 시 스케줄러 정리
 
-
 # ─── FastAPI 앱 초기화 ────────────────────────────
 app = FastAPI(lifespan=lifespan)
 
+# ─── CORS 처리 ──-------──────────────────────────
+from fastapi.middleware.cors import CORSMiddleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],  # 프론트 주소
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # ─── Health Check ─────────────────────────────────
 @app.get("/ai/health")
