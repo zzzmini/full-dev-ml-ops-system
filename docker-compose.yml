@@ -40,6 +40,8 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
+      redis:
+        condition: service_healthy  # healthcheck 있어야 이게 동작함        
 
   frontend:
     build: ./frontend
@@ -53,5 +55,22 @@ services:
       - spring
       - fastapi
 
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: ["redis-server", "--appendonly", "yes"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+
+
 volumes:
   mysql_data:
+  redis_data:
